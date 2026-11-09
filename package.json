@@ -1,0 +1,50 @@
+{
+  "name": "dsh-fetch-modifier",
+  "version": "0.1.0",
+  "description": "DeepSeek Harness plugin: intercept and modify outgoing fetch requests",
+  "type": "module",
+  "main": "./lib/server/index.js",
+  "types": "./lib/server/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/server/index.d.ts",
+      "default": "./lib/server/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-locale"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "build:server": "tsc",
+    "build:client": "esbuild src/client/index.tsx --bundle --outfile=lib/client.cjs --format=cjs --platform=browser --target=es2020 --external:react --external:@deepseek-ai/dsh-client-runtime --external:@deepseek-ai/dsh-client-ui-slots --external:@deepseek-ai/dsh-client-locale --minify",
+    "build": "npm run build:server && npm run build:client",
+    "test": "node --test test/*.test.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "react": "^18.2.0"
+  },
+  "dependencies": {
+    "undici": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "esbuild": "^0.28.2",
+    "typescript": "^5.3.0"
+  }
+}
