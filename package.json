@@ -11,7 +11,7 @@
       "default": "./lib/server/index.js"
     },
     "./client": {
-      "default": "./lib/client.cjs"
+      "default": "./lib/client.js"
     },
     "./package.json": "./package.json"
   },
@@ -30,7 +30,7 @@
   },
   "scripts": {
     "build:server": "tsc",
-    "build:client": "esbuild src/client/index.tsx --bundle --outfile=lib/client.cjs --format=cjs --platform=browser --target=es2020 --external:react --external:@deepseek-ai/dsh-client-runtime --external:@deepseek-ai/dsh-client-ui-slots --external:@deepseek-ai/dsh-client-locale --minify",
+    "build:client": "node build.js",
     "build": "npm run build:server && npm run build:client",
     "test": "node --test test/*.test.ts",
     "prepublishOnly": "npm run build"
